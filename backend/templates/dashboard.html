@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CashFlow AI — Intelligent Financial Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect width="28" height="28" rx="8" fill="var(--accent)" />
+          <path
+            d="M7 20 L14 8 L21 20"
+            stroke="white"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M9.5 16 L18.5 16"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+        <span>CashFlow<em>AI</em></span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-tab="overview">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+          </svg>
+          Overview
+        </a>
+        <a href="#" class="nav-item" data-tab="forecast">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+          </svg>
+          Forecast
+        </a>
+        <a href="#" class="nav-item" data-tab="accuracy">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
+          </svg>
+          Accuracy
+        </a>
+        <a href="#" class="nav-item" data-tab="risks">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+            />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          Risks
+        </a>
+        <a href="#" class="nav-item" data-tab="improvements">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="12" y1="20" x2="12" y2="10" />
+            <line x1="18" y1="20" x2="18" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="16" />
+          </svg>
+          Improvements
+        </a>
+        <a href="#" class="nav-item" data-tab="categories">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          Breakdown
+        </a>
+        <a href="#" class="nav-item" data-tab="adddata">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="16" />
+            <line x1="8" y1="12" x2="16" y2="12" />
+          </svg>
+          Add Data
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="model-badge">
+          <span class="pulse-dot"></span>
+          XGBoost Model Active
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" id="menuToggle">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <div>
+            <h1 class="page-title" id="pageTitle">Overview</h1>
+            <p class="page-sub" id="pageSub">Real-time cashflow intelligence</p>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="date-range" id="dateRange">Loading...</div>
+          <div class="status-pill">
+            <span class="pulse-dot green"></span>
+            Live
+          </div>
+        </div>
+      </header>
+
+      <!-- ===================== OVERVIEW TAB ===================== -->
+      <section class="tab-content active" id="tab-overview">
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card inflow">
+            <div class="kpi-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                <polyline points="17 6 23 6 23 12" />
+              </svg>
+            </div>
+            <div class="kpi-content">
+              <span class="kpi-label">Total Inflow</span>
+              <span class="kpi-value" id="kpiInflow">—</span>
+              <span class="kpi-trend positive" id="kpiInflowTrend"
+                >↑ Positive</span
+              >
+            </div>
+          </div>
+          <div class="kpi-card outflow">
+            <div class="kpi-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
+                <polyline points="17 18 23 18 23 12" />
+              </svg>
+            </div>
+            <div class="kpi-content">
+              <span class="kpi-label">Total Outflow</span>
+              <span class="kpi-value" id="kpiOutflow">—</span>
+              <span class="kpi-trend negative" id="kpiOutflowTrend"
+                >Expenses</span
+              >
+            </div>
+          </div>
+          <div class="kpi-card net">
+            <div class="kpi-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="12" y1="1" x2="12" y2="23" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+            </div>
+            <div class="kpi-content">
+              <span class="kpi-label">Net Cashflow</span>
+              <span class="kpi-value" id="kpiNet">—</span>
+              <span class="kpi-trend" id="kpiNetTrend">Balance</span>
+            </div>
+          </div>
+          <div class="kpi-card accuracy">
+            <div class="kpi-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            </div>
+            <div class="kpi-content">
+              <span class="kpi-label">Model Accuracy</span>
+              <span class="kpi-value" id="kpiAccuracy">—</span>
+              <span class="kpi-trend" id="kpiAccuracyLabel"
+                >AI Prediction Score</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="chart-row">
+          <div class="chart-card wide">
+            <div class="chart-header">
+              <div>
+                <h3>Historical Cashflow</h3>
+                <p>Last 12 months — daily with 7-day moving average</p>
+              </div>
+              <div class="chart-legend">
+                <span class="legend-dot blue"></span> Daily
+                <span class="legend-dot amber" style="margin-left: 12px"></span>
+                7-Day Avg
+              </div>
+            </div>
+            <div class="chart-wrap" style="height: 280px">
+              <canvas id="historicalChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3>Monthly Flow</h3>
+                <p>Inflow vs outflow by month</p>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height: 280px">
+              <canvas id="monthlyBarChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accuracy Metrics -->
+        <div class="metrics-row">
+          <div class="metric-pill">
+            <span class="metric-name">R² Score</span>
+            <span class="metric-val" id="metR2">—</span>
+          </div>
+          <div class="metric-pill">
+            <span class="metric-name">MAE</span>
+            <span class="metric-val" id="metMAE">—</span>
+          </div>
+          <div class="metric-pill">
+            <span class="metric-name">RMSE</span>
+            <span class="metric-val" id="metRMSE">—</span>
+          </div>
+          <div class="metric-pill">
+            <span class="metric-name">MAPE</span>
+            <span class="metric-val" id="metMAPE">—</span>
+          </div>
+          <div class="metric-pill highlight">
+            <span class="metric-name">Accuracy</span>
+            <span class="metric-val" id="metAccuracy">—</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== FORECAST TAB ===================== -->
+      <section class="tab-content" id="tab-forecast">
+        <div class="forecast-controls">
+          <span class="ctrl-label">Forecast Horizon:</span>
+          <button class="ctrl-btn active" data-days="30">1 Month</button>
+          <button class="ctrl-btn" data-days="60">2 Months</button>
+          <button class="ctrl-btn" data-days="90">3 Months</button>
+          <button class="ctrl-btn" data-days="180">6 Months</button>
+        </div>
+
+        <div class="chart-card" style="margin-top: 16px">
+          <div class="chart-header">
+            <div>
+              <h3>Daily Cashflow Forecast</h3>
+              <p>
+                Green = profitable day &nbsp;|&nbsp; Red = loss day
+                &nbsp;|&nbsp; Shaded band = uncertainty range
+              </p>
+            </div>
+            <div class="forecast-summary" id="forecastSummary"></div>
+          </div>
+          <div class="chart-wrap" style="height: 300px">
+            <canvas id="forecastChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card" style="margin-top: 16px">
+          <div class="chart-header">
+            <div>
+              <h3>Monthly Profit / Loss Prediction</h3>
+              <p>Will you be in profit or loss each upcoming month?</p>
+            </div>
+          </div>
+          <div id="monthlyForecastTable"></div>
+        </div>
+      </section>
+
+      <!-- ===================== ACCURACY TAB ===================== -->
+      <section class="tab-content" id="tab-accuracy">
+        <div class="chart-row">
+          <div class="chart-card wide">
+            <div class="chart-header">
+              <div>
+                <h3>Monthly Prediction Accuracy</h3>
+                <p>How well the AI predicted each month's cashflow</p>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height: 300px">
+              <canvas id="accuracyChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3>Actual vs Predicted</h3>
+                <p>Monthly cashflow comparison</p>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height: 300px">
+              <canvas id="actualVsPredChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="accuracy-table-wrap">
+          <table class="accuracy-table" id="accuracyTable">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Accuracy</th>
+                <th>MAE</th>
+                <th>Actual Total</th>
+                <th>Predicted Total</th>
+                <th>Variance</th>
+              </tr>
+            </thead>
+            <tbody id="accuracyTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===================== RISKS TAB ===================== -->
+      <section class="tab-content" id="tab-risks">
+        <div class="risk-overview-row">
+          <div class="risk-score-card" id="riskScoreCard">
+            <div class="risk-score-label">Overall Risk Score</div>
+            <div class="risk-score-value" id="riskScore">—</div>
+            <div class="risk-score-level" id="riskLevel">—</div>
+            <canvas id="riskGauge" width="200" height="110"></canvas>
+          </div>
+          <div class="risk-summary" id="riskSummary"></div>
+        </div>
+        <div class="risk-cards" id="riskCards"></div>
+      </section>
+
+      <!-- ===================== IMPROVEMENTS TAB ===================== -->
+      <section class="tab-content" id="tab-improvements">
+        <div class="improvements-filter">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="High">High Priority</button>
+          <button class="filter-btn" data-filter="Medium">Medium</button>
+          <button class="filter-btn" data-filter="Low">Low</button>
+        </div>
+        <div class="improvements-grid" id="improvementsGrid"></div>
+      </section>
+
+      <!-- ===================== CATEGORIES TAB ===================== -->
+      <section class="tab-content" id="tab-categories">
+        <div class="chart-row">
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3>Top Inflow Categories</h3>
+                <p>Revenue source breakdown</p>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height: 280px">
+              <canvas id="inflowPieChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3>Top Outflow Categories</h3>
+                <p>Expense breakdown</p>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height: 280px">
+              <canvas id="outflowPieChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="category-tables" id="categoryTables"></div>
+      </section>
+
+      <!-- ===================== ADD DATA TAB ===================== -->
+      <section class="tab-content" id="tab-adddata">
+        <!-- Single entry form -->
+        <div class="chart-card" style="margin-bottom: 16px">
+          <div class="chart-header">
+            <div>
+              <h3>Add Single Transaction</h3>
+              <p>Enter one inflow or outflow entry to update your forecast</p>
+            </div>
+          </div>
+          <div class="add-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Date</label>
+                <input type="date" id="entry-date" class="form-input" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Type</label>
+                <select id="entry-type" class="form-input">
+                  <option value="Inflow">Inflow (Money In)</option>
+                  <option value="Outflow">Outflow (Money Out)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Category</label>
+                <input
+                  type="text"
+                  id="entry-category"
+                  class="form-input"
+                  placeholder="e.g. Sales Revenue"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Amount (₹)</label>
+                <input
+                  type="number"
+                  id="entry-amount"
+                  class="form-input"
+                  placeholder="e.g. 5000"
+                  min="0"
+                />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn-add-entry" id="btnAddEntry">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  width="16"
+                  height="16"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Add Entry
+              </button>
+              <span class="form-feedback" id="entryFeedback"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bulk CSV upload -->
+        <div class="chart-card" style="margin-bottom: 16px">
+          <div class="chart-header">
+            <div>
+              <h3>Bulk Upload via CSV</h3>
+              <p>Upload a CSV with columns: DATE, TYPE, CATEGORY, AMOUNT</p>
+            </div>
+          </div>
+          <div class="upload-zone" id="uploadZone">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              width="36"
+              height="36"
+              style="opacity: 0.4"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <p class="upload-text">
+              Drag & drop your CSV here, or
+              <label for="csvFileInput" class="upload-link">browse</label>
+            </p>
+            <p class="upload-hint">
+              Must have columns: DATE, TYPE, CATEGORY, AMOUNT
+            </p>
+            <input
+              type="file"
+              id="csvFileInput"
+              accept=".csv"
+              style="display: none"
+            />
+          </div>
+          <div class="upload-actions" id="uploadActions" style="display: none">
+            <span id="uploadFileName" class="upload-fname"></span>
+            <button class="btn-upload" id="btnUpload">
+              Upload & Retrain Model
+            </button>
+            <button class="btn-cancel-upload" id="btnCancelUpload">
+              Cancel
+            </button>
+          </div>
+          <div id="uploadFeedback" class="upload-feedback"></div>
+        </div>
+
+        <!-- Staged entries preview table -->
+        <div class="chart-card" id="stagedCard" style="display: none">
+          <div class="chart-header">
+            <div>
+              <h3>Staged Entries</h3>
+              <p>New entries added this session — not yet saved to CSV</p>
+            </div>
+            <div style="display: flex; gap: 8px">
+              <button class="btn-save-csv" id="btnSaveAll">
+                Save All to CSV & Retrain
+              </button>
+              <button class="btn-clear-staged" id="btnClearStaged">
+                Clear All
+              </button>
+            </div>
+          </div>
+          <div class="staged-table-wrap">
+            <table class="staged-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="stagedTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loader-box">
+        <div class="loader-ring"></div>
+        <p>Initializing AI Engine...</p>
+      </div>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+  </body>
+</html>
